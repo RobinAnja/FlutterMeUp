@@ -112,7 +112,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                     expandedHeight: 56,
                                     backgroundColor: Colors.red,
                                     title: Text("Home", style: TextStyle(color: Colors.white),),
-                                    actions: <Widget>[
+                                   leading:
 
                                       IconButton(
                                         icon: Icon(Icons.menu),
@@ -128,7 +128,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                           });
                                         },
                                       )
-                                    ],
+                                    ,
                                   ),
 
 
