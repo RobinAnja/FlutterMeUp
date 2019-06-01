@@ -3,9 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_me_up/resources/repository.dart';
 import 'package:flutter_me_up/ui/home_screen.dart';
-import 'package:flutter_me_up/ui/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,10 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Firestore _firestore = Firestore.instance;
-  User user;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   var _repository = Repository();
 
 

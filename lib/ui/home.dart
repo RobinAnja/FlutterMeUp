@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_me_up/main.dart';
+import 'package:flutter_me_up/resources/repository.dart';
 
 
 
@@ -24,6 +26,8 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin{
   Animation<double> _menuScaleAnimation;
 
   Animation<Offset> _slideAnimation;
+
+  var _repository = Repository();
 
 
   @override
@@ -266,15 +270,18 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin{
                               ),
                               onTap: () {
 
-
-                                setState((){
-
-                                  _controller.reverse().then((_) async{
-
+                                setState(() {
+                                  _controller.reverse().then((_) async {
+                                    await _repository.signOut().then((v) {
+                                      Navigator.pushReplacement(context,
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                                return MyApp();
+                                              }));
+                                    });
                                   });
                                   isCollapsed = !isCollapsed;
                                 });
-
 
                               },
                             ),
