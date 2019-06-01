@@ -4,11 +4,13 @@ class User {
    String email;
    String photoUrl;
    String displayName;
-   String coordinates;
+   double longitude;
+   double latitude;
+
    String bio;
    String phone;
 
-   User({this.uid, this.email, this.photoUrl, this.displayName, this.coordinates, this.bio,  this.phone});
+   User({this.uid, this.email, this.photoUrl, this.displayName, this.latitude, this.longitude, this.bio,  this.phone});
 
     Map toMap(User user) {
     var data = Map<String, dynamic>();
@@ -16,7 +18,9 @@ class User {
     data['email'] = user.email;
     data['photoUrl'] = user.photoUrl;
     data['displayName'] = user.displayName;
-    data['coordinates'] = user.coordinates;
+    data['longitude'] = user.longitude;
+    data['latitude'] = user.latitude;
+
     data['bio'] = user.bio;
     data['phone'] = user.phone;
     return data;
@@ -27,7 +31,8 @@ class User {
     this.email = mapData['email'];
     this.photoUrl = mapData['photoUrl'];
     this.displayName = mapData['displayName'];
-    this.coordinates = mapData['coordinates'];
+    this.latitude = mapData['latitude'];
+    this.longitude = mapData['longitude'];
     this.bio = mapData['bio'];
     this.phone = mapData['phone'];
   }

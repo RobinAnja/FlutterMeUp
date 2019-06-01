@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         centerTitle: true,
         elevation: 0.0,
-        title: const Text('Flutter Me Up!!!',
+        title: const Text('Flutter Me Up',
             style: const TextStyle(
                 fontFamily: "Bangers", color: Colors.black, fontSize: 30.0)),),
 

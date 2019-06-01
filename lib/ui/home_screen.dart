@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_me_up/ui/list.dart';
 import 'package:flutter_me_up/ui/animated_bottom_bar.dart';
+import 'package:flutter_me_up/ui/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -52,7 +53,9 @@ class HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
             child: Home(),
           ),
-          new Container(color: Colors.white, child: ListScreen()),
+          new Container(color: Colors.white, child: SearchScreen()),
+
+          new Container(color: Colors.white, child: ProfileScreenNew()),
 
 
         ],
@@ -67,13 +70,18 @@ class HomeScreenState extends State<HomeScreen> {
           BarItem(
               text: "Home",
               iconData: Icons.home,
-              color: Colors.red
+              color: Colors.blue
 
+          ),
+          BarItem(
+              text: "Suche",
+              iconData: Icons.search,
+              color: Colors.blue
           ),
           BarItem(
               text: "Profil",
               iconData: Icons.person,
-              color: Colors.red
+              color: Colors.blue
           ),
 
         ],

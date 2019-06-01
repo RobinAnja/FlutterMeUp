@@ -42,7 +42,9 @@ class FirebaseProvider {
         email: currentUser.email,
         displayName: currentUser.displayName,
         photoUrl: currentUser.photoUrl,
-        coordinates: "58639497788, 5638963335",
+        latitude: 20,
+        longitude: 20,
+
         bio: '',
         phone: '');
 
@@ -283,9 +285,11 @@ class FirebaseProvider {
   }
 
   Future<void> updateDetails(
-      String uid, String coordinates) async {
+      String uid, double longitude, double latitude) async {
     Map<String, dynamic> map = Map();
-    map['coordinates'] = coordinates;
+    map['longitude'] = longitude;
+    map['latitude'] = latitude;
+
     return _firestore.collection("users").document(uid).updateData(map);
   }
 

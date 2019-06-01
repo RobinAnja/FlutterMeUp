@@ -24,7 +24,7 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProvid
   Widget build(BuildContext context) {
     return Material(
 
-      color: Colors.red,
+      color: Colors.blue,
       elevation: 0.0,
       child: Padding(
         padding: const EdgeInsets.only(
@@ -49,8 +49,8 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProvid
       bool isSelected = selectedBarIndex == i;
       _barItems.add(InkWell(
         borderRadius: BorderRadius.circular(20),
-        splashColor: Colors.red,
-        highlightColor: Colors.red,
+        splashColor: Colors.blue,
+        highlightColor: Colors.blue,
         onTap: () {
           setState(() {
             selectedBarIndex = i;
@@ -63,7 +63,7 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProvid
           decoration: BoxDecoration(
                     color: isSelected
                   ? Colors.white
-                  : Colors.red,
+                  : Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: Row(
             children: <Widget>[

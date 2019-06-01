@@ -23,11 +23,10 @@ class _FancyFabState extends State<FancyFab>
   AnimationController _controller;
   Animation<Color> _buttonColor;
   Animation<Color> _iconColor;
-
   FirebaseUser currentUser;
   var _locationController;
-  String coordinates;
-
+  double longitude;
+  double latitude;
 
   File file;
   var _repository = Repository();
@@ -39,7 +38,7 @@ class _FancyFabState extends State<FancyFab>
           ..addListener(() {
             setState(() {});
           });
-   _iconColor = ColorTween(begin: Colors.white, end: Colors.red)
+   _iconColor = ColorTween(begin: Colors.white, end: Colors.blue)
        .animate(CurvedAnimation(
      parent: _controller,
      curve: Interval(
@@ -51,7 +50,7 @@ class _FancyFabState extends State<FancyFab>
 
    initPlatformState();
 
-   _buttonColor = ColorTween(begin: Colors.red, end: Colors.white)
+   _buttonColor = ColorTween(begin: Colors.blue, end: Colors.white)
 
        .animate(CurvedAnimation(
       parent: _controller,
@@ -78,16 +77,18 @@ class _FancyFabState extends State<FancyFab>
    _repository
        .updateDetails(
        currentUser.uid,
-      coordinates);
+      longitude,
+   latitude);
  }
 
   initPlatformState() async {
     Placemark first = await locateUser();
     setState(() {
-      coordinates = first.position.toString();
+      longitude = first.position.longitude;
+      latitude = first.position.latitude;
     });
 
-    print("Koordinaten: $coordinates");
+    print("Koordinaten: $longitude");
 
 
   }
@@ -156,7 +157,7 @@ class _FancyFabState extends State<FancyFab>
   Widget _buildFab() {
     return FloatingActionButton(
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.0)), side: BorderSide(color: Colors.red, width: 4.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.0)), side: BorderSide(color: Colors.blue, width: 4.0)),
 
       backgroundColor: _buttonColor.value,
       onPressed: () {
@@ -197,7 +198,7 @@ class _FancyFabState extends State<FancyFab>
             heroTag: "camera",
             backgroundColor: backgroundColor,
             mini: true,
-            child: Icon(Icons.person, color: Colors.red),
+            child: Icon(Icons.my_location, color: Colors.blue),
             onPressed: () {
               goToCamera();
             },
