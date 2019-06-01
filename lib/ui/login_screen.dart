@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Flutter Me Up!!!',
             style: const TextStyle(
                 fontFamily: "Bangers", color: Colors.black, fontSize: 30.0)),),
+
       body: Center(
         child: GestureDetector(
           child: Container(
