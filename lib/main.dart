@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_me_up/resources/repository.dart';
 import 'package:flutter_me_up/ui/home_screen.dart';
+import 'package:flutter_me_up/ui/login_screen.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  var _repository = Repository();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: FutureBuilder(
+        future: _repository.getCurrentUser(),
+        builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+          if (snapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return LoginScreen();
+          }
+        },
+      ),
     );
   }
 }

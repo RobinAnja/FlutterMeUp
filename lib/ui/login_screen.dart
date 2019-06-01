@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_me_up/resources/repository.dart';
 import 'package:flutter_me_up/ui/home_screen.dart';
 import 'package:flutter_me_up/ui/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,68 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final Firestore _firestore = Firestore.instance;
   User user;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  var _repository = Repository();
 
 
 
-  Future<bool> authenticateUserFuture(FirebaseUser user) async {
-    print("Inside authenticateUser");
-    final QuerySnapshot result = await _firestore
-        .collection("users")
-        .where("email", isEqualTo: user.email)
-        .getDocuments();
-
-    final List<DocumentSnapshot> docs = result.documents;
-
-    if (docs.length == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<FirebaseUser> signIn() async {
-    GoogleSignInAccount _signInAccount = await _googleSignIn.signIn();
-    GoogleSignInAuthentication _signInAuthentication =
-    await _signInAccount.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: _signInAuthentication.accessToken,
-      idToken: _signInAuthentication.idToken,
-    );
-
-    final FirebaseUser user = await _auth.signInWithCredential(credential);
-    return user;
-  }
-
-
-  Future<void> addDataToDb(FirebaseUser currentUser) async {
-    print("Inside addDataToDb Method");
-
-    _firestore
-        .collection("display_names")
-        .document(currentUser.displayName)
-        .setData({'displayName': currentUser.displayName});
-
-    user = User(
-        uid: currentUser.uid,
-        email: currentUser.email,
-        displayName: currentUser.displayName,
-        photoUrl: currentUser.photoUrl,
-        followers: 0,
-        following: 0,
-        bio: '',
-        posts: 0,
-        phone: '');
-
-    //  Map<String, String> mapdata = Map<String, dynamic>();
-
-    //  mapdata = user.toMap(user);
-
-    return _firestore
-        .collection("users")
-        .document(currentUser.uid)
-        .setData(user.toMap(user));
-  }
 
 
   @override
@@ -90,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         centerTitle: true,
         elevation: 0.0,
-        title: const Text('Gūenther',
+        title: const Text('Flutter Me Up',
             style: const TextStyle(
                 fontFamily: "Bangers", color: Colors.black, fontSize: 30.0)),),
       body: Center(
@@ -113,9 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           onTap: () {
-            signIn().then((user) {
+            _repository.signIn().then((user) {
               if (user != null) {
-                authenticateUserFuture(user);
+                authenticateUser(user);
               } else {
                 print("Error");
               }
@@ -128,11 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void authenticateUser(FirebaseUser user) {
     print("Inside Login Screen -> authenticateUser");
-    authenticateUserFuture(user).then((value) {
+    _repository.authenticateUser(user).then((value) {
       if (value) {
         print("VALUE : $value");
         print("INSIDE IF");
-        addDataToDb(user).then((value) {
+        _repository.addDataToDb(user).then((value) {
           Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) {
             return HomeScreen();
           }));

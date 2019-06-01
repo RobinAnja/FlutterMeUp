@@ -25,6 +25,10 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     compileSdkVersion 28
 
     lintOptions {
@@ -39,6 +43,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
 
     buildTypes {
@@ -60,7 +66,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'androidx.multidex:multidex:2.0.0'
-    implementation 'com.google.android.exoplayer:exoplayer:2.10.0'
 
 }
 
