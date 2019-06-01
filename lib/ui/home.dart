@@ -257,7 +257,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                 children: <Widget>[
 
                                   Text(
-                                      'Menü_Punkt_2   ',
+                                      'Logout   ',
                                       style: TextStyle(
                                           color: Colors
                                               .white, fontSize: 20)),

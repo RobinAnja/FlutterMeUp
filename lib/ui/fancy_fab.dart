@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:geolocator/geolocator.dart';
+
+import 'package:flutter_me_up/resources/repository.dart';
 
 // https://stackoverflow.com/questions/46480221/flutter-floating-action-button-with-speed-dail
 class FancyFab extends StatefulWidget {
@@ -20,7 +24,13 @@ class _FancyFabState extends State<FancyFab>
   Animation<Color> _buttonColor;
   Animation<Color> _iconColor;
 
+  FirebaseUser currentUser;
+  var _locationController;
+  String coordinates;
+
+
   File file;
+  var _repository = Repository();
 
   @override
   initState() {
@@ -39,6 +49,7 @@ class _FancyFabState extends State<FancyFab>
      ),
    ));
 
+   initPlatformState();
 
    _buttonColor = ColorTween(begin: Colors.red, end: Colors.white)
 
@@ -51,25 +62,83 @@ class _FancyFabState extends State<FancyFab>
       ),
     ));
 
+
+   _repository.getCurrentUser().then((user) {
+     setState(() {
+       currentUser = user;
+     });
+   });
+
+   _locationController = TextEditingController();
+
     super.initState();
   }
 
-  goToVideoGallery() {
+ updateCurrentPosition(){
+   _repository
+       .updateDetails(
+       currentUser.uid,
+      coordinates);
+ }
 
-    _controller.reverse();
+  initPlatformState() async {
+    Placemark first = await locateUser();
+    setState(() {
+      coordinates = first.position.toString();
+    });
+
+    print("Koordinaten: $coordinates");
+
 
   }
 
-  goToVideoCamera() {
+  locateUser() async {
+    Position currentLocation;
 
-    _controller.reverse();
 
+    final Geolocator geolocator = Geolocator()
+      ..forceAndroidLocationManager = true;
+
+
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+
+    currentLocation = await geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+
+
+
+    print(
+        'LATITUDE : ${currentLocation.latitude} && LONGITUDE : ${currentLocation.longitude}');
+
+    // From coordinates
+
+
+    print('1');
+
+    List<Placemark> addresses = await Geolocator().placemarkFromCoordinates(currentLocation.latitude, currentLocation.longitude);
+
+
+    print(addresses.first);
+
+    var firstCoordinates = addresses.first;
+
+    return firstCoordinates;
   }
 
   goToCamera() async {
 
+    updateCurrentPosition();
+
     _controller.reverse();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _locationController?.dispose();
+  }
+
 
   goToGallery() async {
 
@@ -128,35 +197,16 @@ class _FancyFabState extends State<FancyFab>
             heroTag: "camera",
             backgroundColor: backgroundColor,
             mini: true,
-            child: Icon(Icons.score, color: Colors.red),
+            child: Icon(Icons.person, color: Colors.red),
             onPressed: () {
               goToCamera();
             },
           ),
         ),
       ),
-      Container(
-        height: 70.0,
-        width: 56.0,
-        alignment: FractionalOffset.topCenter,
-        child: ScaleTransition(
-          scale: CurvedAnimation(
-            parent: _controller,
-            curve: Interval(0.0, 1.0 - 2 / 2 / 2.0, curve: Curves.easeOut),
-          ),
-          child: FloatingActionButton(
-            heroTag: "gallery",
-            backgroundColor: backgroundColor,
-            mini: true,
-            child: Icon(Icons.healing, color: Colors.red),
-            onPressed: () {
-              goToGallery();
-            },
-          ),
-        ),
-      ),
-
 
     ]);
   }
+
+
 }

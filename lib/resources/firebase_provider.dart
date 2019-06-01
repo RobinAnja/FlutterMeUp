@@ -42,10 +42,8 @@ class FirebaseProvider {
         email: currentUser.email,
         displayName: currentUser.displayName,
         photoUrl: currentUser.photoUrl,
-        followers: 0,
-        following: 0,
+        coordinates: "58639497788, 5638963335",
         bio: '',
-        posts: 0,
         phone: '');
 
     //  Map<String, String> mapdata = Map<String, dynamic>();
@@ -285,12 +283,9 @@ class FirebaseProvider {
   }
 
   Future<void> updateDetails(
-      String uid, String name, String bio, String email, String phone) async {
+      String uid, String coordinates) async {
     Map<String, dynamic> map = Map();
-    map['displayName'] = name;
-    map['bio'] = bio;
-    map['email'] = email;
-    map['phone'] = phone;
+    map['coordinates'] = coordinates;
     return _firestore.collection("users").document(uid).updateData(map);
   }
 
